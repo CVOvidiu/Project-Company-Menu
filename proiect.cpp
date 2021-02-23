@@ -15,19 +15,127 @@ OPTIUNEA 7 : Inchiderea aplicatiei.
 
 using namespace std;
 
+ifstream in("firma.in");
+
+struct angajat{
+    char Nume[30], Sex[10], Job[30];
+    int nr_Copii, Salariu;
+};
+
+angajat Angajat[100], aux_Angajat;
+
+int nr_Angajati;
+
+void OPT_1() {
+    cout << endl;
+
+            cout << "======= TABEL INITIAL =======" << endl;
+
+            for(int i = 1; i <= nr_Angajati; i++)
+                cout << setw(15) << Angajat[i].Nume << setw(15) << Angajat[i].Sex << setw(15) << Angajat[i].nr_Copii << setw(15) << Angajat[i].Job << setw(15) << Angajat[i].Salariu << endl;
+            
+            cout << endl;
+}
+
+void OPT_2() {
+    cout << endl;
+
+            for(int i = 1; i <= nr_Angajati - 1; i++)
+                for(int j = i + 1; j <= nr_Angajati; j++)
+                    if(stricmp(Angajat[i].Job, Angajat[j].Job) > 0) {
+                        aux_Angajat = Angajat[i];
+                        Angajat[i] = Angajat[j];
+                        Angajat[j] = aux_Angajat;
+                    }
+                    else if(stricmp(Angajat[i].Job, Angajat[j].Job) == 0)
+                        if(Angajat[i].Salariu > Angajat[j].Salariu) {
+                            aux_Angajat = Angajat[i];
+                            Angajat[i] = Angajat[j];
+                            Angajat[j] = aux_Angajat;
+                        }
+
+            cout << "TABELUL A FOST ACTUALIZAT, PENTRU A REAFISA TABELUL APASATI 1!" << endl;
+
+            cout << endl;
+}
+
+void OPT_3() {
+    cout << endl;
+
+            int Total = 0;
+
+            cout << "======= TABELUL ANGAJATILOR BARBATI =======" << endl;
+
+            for(int i = 1; i <= nr_Angajati; i++)
+                if(strcmp(Angajat[i].Sex, "M") == 0) {
+                    cout << setw(15) << Angajat[i].Nume << setw(15) << Angajat[i].Sex << setw(15) << Angajat[i].nr_Copii << setw(15) << Angajat[i].Job << setw(15) << Angajat[i].Salariu << endl;
+                    Total++;
+                }
+            cout << endl;
+
+            cout << " TOTALUL DE ANGAJATI BARBATI : " << Total << endl;
+
+            cout << endl;
+}
+
+void OPT_4() {
+    cout << endl;
+
+            int Total = 0;
+            char optJob[30];
+
+            cout << "Alege jobul : " << endl;
+            cin >> optJob;
+
+            for(int i = 1; i <= nr_Angajati; i++)
+                if(stricmp(Angajat[i].Job, optJob) == 0)
+                    Total += Angajat[i].nr_Copii;
+
+            cout << " TOTALUL DE COPII AL JOBULUI ALES : " << Total << endl;
+
+            cout << endl;
+}
+
+void OPT_5() {
+    cout << endl;
+
+            int newSum;
+            char optJob[30];
+
+            cout << "Carui job vrei sa ii schimbi salariul? : " << endl;
+            cin >> optJob;
+
+            cout << "Ce salariu vrei sa aiba jobul? : " << endl;
+            cin >> newSum;
+
+            for(int i = 1; i <= nr_Angajati; i++)
+                if(stricmp(Angajat[i].Job, optJob) == 0)
+                    Angajat[i].Salariu = newSum;
+
+            cout << "TABELUL A FOST ACTUALIZAT, PENTRU A REAFISA TABELUL APASATI 1!" << endl;
+
+            cout << endl;
+}
+
+void OPT_6() {
+    cout << endl;
+
+            int index = 1, maxSalariu = 0;
+
+            for(int i = 1; i <= nr_Angajati; i++)
+                if(maxSalariu < Angajat[i].Salariu)
+                    maxSalariu = Angajat[i].Salariu;
+
+            cout << "======= TABELUL ANGAJATILOR CARE AU CEL MAI MARE =======" << endl;
+
+            for(int i = 1; i <= nr_Angajati; i++)
+                if(Angajat[i].Salariu == maxSalariu)
+                    cout << setw(15) << Angajat[i].Nume << setw(15) << Angajat[i].Sex << setw(15) << Angajat[i].nr_Copii << setw(15) << Angajat[i].Job << setw(15) << Angajat[i].Salariu << endl;
+
+            cout << endl;
+}
+
 int main() {
-
-    ifstream in("firma.in");
-
-    struct angajat{
-        char Nume[30], Sex[10], Job[30];
-        int nr_Copii, Salariu;
-    };
-
-    angajat Angajat[100], aux_Angajat;
-
-    int nr_Angajati;
-
     in >> nr_Angajati;
 
     for(int i = 1; i <= nr_Angajati; i++)
@@ -48,109 +156,26 @@ int main() {
         cout << "Alege optiunea : ";
   
         cin >> OPT;
-  
-        if(OPT == 1) {
-            cout << endl;
-
-            cout << "======= TABEL INITIAL =======" << endl;
-
-            for(int i = 1; i <= nr_Angajati; i++)
-                cout << setw(15) << Angajat[i].Nume << setw(15) << Angajat[i].Sex << setw(15) << Angajat[i].nr_Copii << setw(15) << Angajat[i].Job << setw(15) << Angajat[i].Salariu << endl;
-            
-            cout << endl;
-        }
-        else if(OPT == 2) {
-            cout << endl;
-
-            for(int i = 1; i <= nr_Angajati - 1; i++)
-                for(int j = i + 1; j <= nr_Angajati; j++)
-                    if(stricmp(Angajat[i].Job, Angajat[j].Job) > 0) {
-                        aux_Angajat = Angajat[i];
-                        Angajat[i] = Angajat[j];
-                        Angajat[j] = aux_Angajat;
-                    }
-                    else if(stricmp(Angajat[i].Job, Angajat[j].Job) == 0)
-                        if(Angajat[i].Salariu > Angajat[j].Salariu) {
-                            aux_Angajat = Angajat[i];
-                            Angajat[i] = Angajat[j];
-                            Angajat[j] = aux_Angajat;
-                        }
-
-            cout << "TABELUL A FOST ACTUALIZAT, PENTRU A REAFISA TABELUL APASATI 1!" << endl;
-
-            cout << endl;
-        }
-        else if(OPT == 3) {
-            cout << endl;
-
-            int Total = 0;
-
-            cout << "======= TABELUL ANGAJATILOR BARBATI =======" << endl;
-
-            for(int i = 1; i <= nr_Angajati; i++)
-                if(strcmp(Angajat[i].Sex, "M") == 0) {
-                    cout << setw(15) << Angajat[i].Nume << setw(15) << Angajat[i].Sex << setw(15) << Angajat[i].nr_Copii << setw(15) << Angajat[i].Job << setw(15) << Angajat[i].Salariu << endl;
-                    Total++;
-                }
-            cout << endl;
-
-            cout << " TOTALUL DE ANGAJATI BARBATI : " << Total << endl;
-
-            cout << endl;
-        }
-        else if(OPT == 4) {
-            cout << endl;
-
-            int Total = 0;
-            char optJob[30];
-
-            cout << "Alege jobul : " << endl;
-            cin >> optJob;
-
-            for(int i = 1; i <= nr_Angajati; i++)
-                if(stricmp(Angajat[i].Job, optJob) == 0)
-                    Total += Angajat[i].nr_Copii;
-
-            cout << " TOTALUL DE COPII AL JOBULUI ALES : " << Total << endl;
-
-            cout << endl;
-        }
-        else if(OPT == 5) {
-            cout << endl;
-
-            int newSum;
-            char optJob[30];
-
-            cout << "Carui job vrei sa ii schimbi salariul? : " << endl;
-            cin >> optJob;
-
-            cout << "Ce salariu vrei sa aiba jobul? : " << endl;
-            cin >> newSum;
-
-            for(int i = 1; i <= nr_Angajati; i++)
-                if(stricmp(Angajat[i].Job, optJob) == 0)
-                    Angajat[i].Salariu = newSum;
-
-            cout << "TABELUL A FOST ACTUALIZAT, PENTRU A REAFISA TABELUL APASATI 1!" << endl;
-
-            cout << endl;
-        }
-        else if(OPT == 6) {
-            cout << endl;
-
-            int index = 1, maxSalariu = 0;
-
-            for(int i = 1; i <= nr_Angajati; i++)
-                if(maxSalariu < Angajat[i].Salariu)
-                    maxSalariu = Angajat[i].Salariu;
-
-            cout << "======= TABELUL ANGAJATILOR CARE AU CEL MAI MARE =======" << endl;
-
-            for(int i = 1; i <= nr_Angajati; i++)
-                if(Angajat[i].Salariu == maxSalariu)
-                    cout << setw(15) << Angajat[i].Nume << setw(15) << Angajat[i].Sex << setw(15) << Angajat[i].nr_Copii << setw(15) << Angajat[i].Job << setw(15) << Angajat[i].Salariu << endl;
-
-            cout << endl;
+        
+        switch (OPT) {
+            case 1:
+                OPT_1();
+                break;
+            case 2:
+                OPT_2();
+                break;
+            case 3:
+                OPT_3();
+                break;
+            case 4:
+                OPT_4();
+                break;
+            case 5:
+                OPT_5();
+                break;
+            case 6:
+                OPT_6();
+                break;
         }
     }
     while(OPT != 7);
